@@ -1,0 +1,164 @@
+{% extends 'base.html'%}
+{% block body %}
+
+<!--Top Form Bar-->
+<div id="Extended_Header">
+  <h1>Your Settings</h1>
+  <p><a href="/Home">Home</a> / Settings</p>
+</div>
+
+<div style="display: flex; justify-content: space-between; align-items: center;">
+  <h1>Account Info</h1>
+  {% if userrole == 1 %}
+    <a href="/Admin" class="admin-link">Admin Page</a>
+  {% endif %}
+</div>
+
+<hr>
+
+{% if error %}
+  <div style="color: red; margin-bottom: 10px;">{{ error }}</div>
+{% endif %}
+{% if saved %}
+  <div style="color: green; margin-bottom: 10px;">Changes saved successfully.</div>
+{% endif %}
+
+<form method="POST" class="settings-form">
+
+<input type="hidden" name="OriginalUsername" value="{{ user['Username'] }}">
+<input type="hidden" name="OriginalEmail" value="{{ user['Email'] }}">
+<input type="hidden" name="OriginalPNumber" value="{{ user['PNumber'] }}">
+<input type="hidden" name="OriginalPassword" value="{{ user['Password'] }}">
+
+  <div class="setting-row">
+    <label>Username:</label>
+    <input type="text" name="Username" value="{{ user['Username'] }}" readonly>
+    <button type="button" class="edit-btn">✏️</button>
+  </div>
+  <hr>
+
+  <div class="setting-row">
+    <label>Email:</label>
+    <input type="text" name="Email" value="{{ user['Email'] }}" readonly>
+    <button type="button" class="edit-btn">✏️</button>
+  </div>
+  {% if field_errors.Email %}
+  <div style="color: red; margin-top: 5px;">{{ field_errors.Email }}</div>
+  {% endif %}
+  <hr>
+
+  <div class="setting-row">
+    <label>Phone Number:</label>
+    <input type="text" name="PNumber" value="{{ user['PNumber'] }}" readonly>
+    <button type="button" class="edit-btn">✏️</button>
+  </div>
+    {% if field_errors.PNumber %}
+      <div style="color: red; margin-top: 5px;">{{ field_errors.PNumber }}</div>
+    {% endif %}
+  <hr>
+  
+  <div class="setting-row">
+    <label>Password:</label>
+    <div style="display: flex; align-items: center;">
+      <input type="password" name="Password" value="{{ user['Password'] }}" readonly id="password-field">
+      <button type="button" class="eye-btn" id="toggle-eye" onclick="togglePassword()" style="display: none;">👁️</button>
+      <button type="button" class="edit-btn">✏️</button>
+    </div>
+  </div>
+    {% if field_errors.Password %}
+      <div style="color: red; margin-top: 5px;">{{ field_errors.Password }}</div>
+    {% endif %}
+
+
+  <div class="setting-row" id="confirm-password-row" style="display: none; margin-top: 10px;">
+    <label>Confirm Password:</label>
+    <div style="display: flex; align-items: center;">
+      <input type="password" name="ConfirmPassword" id="confirm-password-field" value="">
+      <button type="button" class="eye-btn" id="toggle-confirm-eye" onclick="toggleConfirmPassword()">👁️</button>
+    </div>
+  </div>
+    {% if field_errors.ConfirmPassword %}
+      <div style="color: red; margin-top: 5px;">{{ field_errors.ConfirmPassword }}</div>
+    {% endif %}
+
+  <hr>
+    {% if save_error %}
+      <div class="main-error" style="color: red; margin-bottom: 10px;">{{ save_error }}</div>
+    {% endif %}
+
+  <div id="action-buttons" style="display: none;">
+    <button type="submit" class="save-btn">Save Changes</button>
+    <button type="submit" name="cancel" value="1" class="save-btn">Cancel Changes</button>
+  </div>
+</form>
+
+<script>
+  const editButtons = document.querySelectorAll('.edit-btn');
+  const eyeBtn = document.getElementById('toggle-eye');
+  const passwordField = document.getElementById('password-field');
+  const actionButtons = document.getElementById('action-buttons');
+  const confirmRow = document.getElementById('confirm-password-row');
+
+  editButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      let input = btn.previousElementSibling;
+      if (!input || input.tagName !== 'INPUT') {
+        input = btn.parentElement.querySelector('input');
+      }
+
+      if (input) {
+        input.removeAttribute('readonly');
+        input.focus();
+
+        if (input.name === 'Password') {
+          eyeBtn.style.display = 'inline';
+          confirmRow.style.display = 'block';
+        }
+
+        actionButtons.style.display = 'block';
+      }
+    });
+  });
+
+  function togglePassword() {
+    if (passwordField.type === "password") {
+      passwordField.type = "text";
+    } else {
+      passwordField.type = "password";
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const errorElement = document.querySelector('div[style*="color: red"]');
+    if (errorElement) {
+      errorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  });
+
+function togglePassword() {
+  if (passwordField.type === "password") {
+    passwordField.type = "text";
+    eyeBtn.textContent = "🙈";
+  } else {
+    passwordField.type = "password";
+    eyeBtn.textContent = "👁️";
+  }
+}
+
+function toggleConfirmPassword() {
+  const confirmField = document.getElementById("confirm-password-field");
+  const icon = document.getElementById("toggle-confirm-eye");
+  if (confirmField.type === "password") {
+    confirmField.type = "text";
+    icon.textContent = "🙈";
+  } else {
+    confirmField.type = "password";
+    icon.textContent = "👁️";
+  }
+}
+
+</script>
+
+
+
+{% endblock %}

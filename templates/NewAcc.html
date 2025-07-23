@@ -1,0 +1,53 @@
+{% extends 'base.html'%}
+{% block body %}
+
+
+<div class="NewAcc">
+<!-- Top Summary-->
+
+  <h1> Looks like you're new </h1>
+  <h3>Lets create a new account using your email</h3>
+
+
+<!-- Actual Form--> 
+
+  <form action="/NewAcc" method='POST'>
+
+    <label for="Email">Enter School Email</label>
+    <input type="text" id="Email" name="Email" placeholder="School Email*" value="{{ prefill_email }}">
+    {% if error %}
+      <div class="error-message" style="color: red; margin-top: 5px;">{{ error }}</div>
+    {% endif %}
+
+    <label for="FName">First Name</label>
+    <input type="text" id="FName" name="FName" placeholder="First Name*" required>
+
+    <label for="SName">Surname</label>
+    <input type="text" id="SName" name="SName" placeholder="Surname*" required>
+
+    <label for="PNumber">Phone Number</label>
+    <input type="text" id="PNumber" name="PNumber" placeholder="Phone Number*" required>
+
+    <label for="Username">Username</label>
+    <input type="text" id="Username" name="Username" placeholder="Username*">
+
+    <label for="Role">Role</label>
+    <select id="Role" name="Role">
+      <option value="" disabled selected hidden">--Please Select your Role--</option>
+      <option value="1">Boarding Staff</option>
+      <option value="2">Staff</option>
+      <option value="3">Student</option>
+    </select>
+
+    <label for="Password">Password</label>
+    <input type="text" id="Password" name="Password" placeholder="Password*">
+
+
+    <input type="submit" value="Create" class="create-btn">
+
+  </form>
+
+</div>
+
+
+{% endblock %}

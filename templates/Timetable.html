@@ -1,0 +1,37 @@
+{% extends 'base.html'%}
+{% block body %}
+
+<!--Top Transport Bar-->
+<div id="Extended_Header">
+  <h1>Transport Timetable</h1>
+  <p><a href="/Home">Home</a> / Transport Timetable</p>
+</div>
+
+<table id="Timetable_Table">
+   <th>Student Name</th>
+   <th>Phone Number</th>
+   <th>Location</th>
+   <th>Date</th>
+   <th>Drop Off</th>
+   <th>Pick Up</th>
+
+{% for submission in submissions %}
+       <tr>
+
+       <td>{{ submission['FullName'] }}</td>
+       <td>{{ submission['PNumber'] }}</td>
+       <td>{% if submission['LocationName']=='Other' %}
+              {{ submission['Other'] }}
+           {% else %}
+              {{ submission['LocationName'] }}
+           {% endif %}
+       </td>
+       <td>{{ submission['Date'] }}</td>
+       <td>{{ submission['DropOff'] }}</td>
+       <td>{{ submission['PickUp'] }}</td>
+    
+
+       </tr>
+{% endfor %}
+</table>
+{% endblock %}

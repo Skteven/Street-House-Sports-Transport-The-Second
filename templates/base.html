@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+
+<div id="navbar">
+<ul>
+    <li style="float: left;">
+    <a>
+      <img src="static/images/Street Nav Black.png" alt="Logo" style="height: 75px; padding-top: 10px;">
+    </a>
+<div class="nav-links">
+  <li><a href="/">Home</a></li>
+  {% if userrole==1 %}
+  <li><a href="/Timetable">Timetable</a></li>
+  {% else %}
+  <li><a href="/Form">Form</a></li>  
+  {% endif %}
+  <li><a href="/Our_Team">Our Team</a></li>
+  <li><a href="/Contact_us">Contact Us</a></li>
+
+ <div class="dropdown">
+   <button class="dropbtn">Account</button>
+     <div class="dropdown-content">
+        {% if username %}
+        <a href="/Settings">{{ username }}</a>
+        <a href="/Logout">Logout</a>
+           {% else %}
+        <a href="/Login">Sign in</a>
+           {% endif %}
+
+     </div>
+ </div>
+
+</ul>
+</div>
+</div>
+
+{% block body %}{% endblock %}
+
+<table style="width:100%; background-color: #d9d9d9;">
+    <tr>
+        <td style="width: 30%">
+            <img src="static/images/Street Nav Black.png" style="display: block; margin-left: autopx; margin-right: auto; width:400px; height:130px">
+        </td>
+        <td style="padding-left: 140px; vertical-align: top;">
+            <h1 style="color:black;">Sitemap</h1>
+            <p style="color:black;"><a href="/">Home</a></p>
+            <p style="color:black;"><a href="/Form">Form</a></p>
+            <p style="color:black;"><a href="/Our_Team">Our Team</a></p>
+        </td>
+        <td style="padding-left: 100px; vertical-align: top;">
+            <h1 style="color:black;">Socials</h1>
+            <p style="color:black;"><a href="https://www.youtube.com/@streethouse6346">Youtube</a></p>
+            <p style="color:black;"><a href="https://www.instagram.com/street_house_boarding">Instagram</a></p></p>
+        </td>
+        <td style="padding-left: 130px; vertical-align: top;">
+            <h1 style="color:black;">Contact Us</h1>
+            <p style="color:black;">Phone: +61 9327 9000</p>
+            <p style="color:black;">Email: seniorschool@cranbrook.nsw.edu.au</p>
+            <p style="color:black;">Address: Cranbrook School 5 Victoria Road Bellevue Hill NSW 2023 Australia</p>
+        </td>
+    </tr>
+</table>
+
+
+</body>
+</html>
