@@ -433,7 +433,7 @@ def archived():
     archived_dates = conn.execute(
         'SELECT DISTINCT Date FROM ArchivedTimetable ORDER BY Date DESC'
     ).fetchall()
-
+    # No commit or save needed here since we are only reading from the database.
     filtered_entries = []
     if selected_date:
         filtered_entries = conn.execute(
