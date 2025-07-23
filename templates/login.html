@@ -1,0 +1,14 @@
+{% extends 'base.html'%}
+{% block body %}  
+
+
+<div class="signin">
+    <h2>Sign in or Create Account</h2>
+    <form action="/Login" method="POST">
+        <label for="SEmail">Enter School Email</label>
+        <input type="text" id="SEmail" name="SEmail" placeholder="School Email*">
+        <input type="submit" value="continue">
+    </form>
+</div>
+
+{% endblock %}

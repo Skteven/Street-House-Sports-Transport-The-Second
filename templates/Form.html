@@ -1,0 +1,226 @@
+{% extends 'base.html'%}
+{% block body %}
+
+<!--Top Form Bar-->
+<div id="Extended_Header">
+  <h1>Transport Form</h1>
+  <p><a href="/">Home</a> / Transport Form</p>
+</div>
+
+<div class="mainbody">
+<!-- Top Summary-->
+<div class="Top_Summary">
+  <h1> Apply Now </h1>
+  <p>Are you taking part in after-school or weekend sports and need a ride? Fill out the form to get a spot on the boarding transport and never miss a game. Make sure to include your location, pick-up and drop-off time, and if you need a lift back so we can plan your transport.</p>
+  <p>Seats are limited, so make sure to apply early and confirm your place!</p>
+</div>
+
+<!-- Actual Form--> 
+<div class="container">
+  
+  {% if error %}
+  <p style="color: red;">{{ error }}</p>
+  {% endif %}
+
+  {% if success %}
+    <p style="color: green;">{{ success }}</p>
+  {% endif %}
+
+
+  <form action="/Form" method='POST'>
+
+    <label for="name">Full Name</label>
+    <input type="text" id="FullName" name="FullName" value="{{ username }}" readonly style="background-color: #f0f0f0;">
+    {% if field_errors.FullName %}
+      <div class="form-error scroll-target">{{ field_errors.FullName }}</div>
+    {% endif %}
+
+    <label for="pnumber">Phone Number</label>
+    <input type="text" id="PNumber" name="PNumber" value="{{ user_phone }}" readonly style="background-color: #f0f0f0;">
+    {% if field_errors.PNumber %}
+      <div class="form-error scroll-target">{{ field_errors.PNumber }}</div>
+    {% endif %}
+
+    <label for="Date">Select Date</label>
+    <select id="Date" name="Date">
+      {% for date in weekend_dates %}
+        <option value="{{ date[0] }}" {% if request.form.get('Date') == date[0] %}selected{% endif %}>{{ date[1] }}</option>
+      {% endfor %}
+    </select>
+    {% if field_errors.Date %}
+      <div class="form-error scroll-target">{{ field_errors.Date }}</div>
+    {% endif %}
+
+
+    <label for="location">Location</label>
+      <select id="Location" name="Location">
+        <option value="" disabled selected hidden>--Please Select a Location--</option>
+        <option value="2" {% if prefill.Location == '2' or request.form.get('Location') == '2' %}selected{% endif %}>Cranbrook Junior School</option>
+        <option value="3" {% if prefill.Location == '3' or request.form.get('Location') == '3' %}selected{% endif %}>Lyne Park Tennis Courts</option>
+        <option value="4" {% if prefill.Location == '4' or request.form.get('Location') == '4' %}selected{% endif %}>Knox Grammar School</option>
+        <option value="5" {% if prefill.Location == '5' or request.form.get('Location') == '5' %}selected{% endif %}>Trinity Grammar School</option>
+        <option value="6" {% if prefill.Location == '6' or request.form.get('Location') == '6' %}selected{% endif %}>Barker Collage</option>
+        <option value="7" {% if prefill.Location == '7' or request.form.get('Location') == '7' %}selected{% endif %}>St Aloysius</option>
+        <option value="8" {% if prefill.Location == '8' or request.form.get('Location') == '8' %}selected{% endif %}>Waverly Collage</option>
+        <option value="1" {% if prefill.Location == '1' or request.form.get('Location') == '1' %}selected{% endif %}>Other</option>
+      </select>
+      {% if field_errors.Location %}
+      <div class="form-error scroll-target">{{ field_errors.Location }}</div>
+    {% endif %}
+
+
+    <input type="text" id="Other" name="Other" placeholder="Other*" 
+       value="{{ prefill.Other if prefill else request.form.get('Other', '') }}" 
+       style="{% if prefill.Location == '1' or request.form.get('Location') == '1' %}display:block;{% else %}display:none;{% endif %}">
+    {% if field_errors.Other %}
+      <div class="form-error scroll-target">{{ field_errors.Other }}</div>
+    {% endif %}
+
+<!--time--> 
+    <label for="Drop Off">Drop Off</label>
+    <select id="DropOff" name="DropOff">
+      <option value="" disabled {% if not request.form.get('DropOff') and not prefill.DropOff %}selected{% endif %}>--Please Select a Time--</option>
+      <option value="6:00 AM" {% if prefill.DropOff == '6:00 AM' or request.form.get('DropOff') == '6:00 AM' %}selected{% endif %}>6:00 AM</option>
+      <option value="6:30 AM" {% if prefill.DropOff == '6:30 AM' or request.form.get('DropOff') == '6:30 AM' %}selected{% endif %}>6:30 AM</option>
+      <option value="7:00 AM" {% if prefill.DropOff == '7:00 AM' or request.form.get('DropOff') == '7:00 AM' %}selected{% endif %}>7:00 AM</option>
+      <option value="7:30 AM" {% if prefill.DropOff == '7:30 AM' or request.form.get('DropOff') == '7:30 AM' %}selected{% endif %}>7:30 AM</option>
+      <option value="8:00 AM" {% if prefill.DropOff == '8:00 AM' or request.form.get('DropOff') == '8:00 AM' %}selected{% endif %}>8:00 AM</option>
+      <option value="8:30 AM" {% if prefill.DropOff == '8:30 AM' or request.form.get('DropOff') == '8:30 AM' %}selected{% endif %}>8:30 AM</option>
+      <option value="9:00 AM" {% if prefill.DropOff == '9:00 AM' or request.form.get('DropOff') == '9:00 AM' %}selected{% endif %}>9:00 AM</option>
+      <option value="9:30 AM" {% if prefill.DropOff == '9:30 AM' or request.form.get('DropOff') == '9:30 AM' %}selected{% endif %}>9:30 AM</option>
+      <option value="10:00 AM" {% if prefill.DropOff == '10:00 AM' or request.form.get('DropOff') == '10:00 AM' %}selected{% endif %}>10:00 AM</option>
+      <option value="10:30 AM" {% if prefill.DropOff == '10:30 AM' or request.form.get('DropOff') == '10:30 AM' %}selected{% endif %}>10:30 AM</option>
+      <option value="11:00 AM" {% if prefill.DropOff == '11:00 AM' or request.form.get('DropOff') == '11:00 AM' %}selected{% endif %}>11:00 AM</option>
+      <option value="11:30 AM" {% if prefill.DropOff == '11:30 AM' or request.form.get('DropOff') == '11:30 AM' %}selected{% endif %}>11:30 AM</option>
+      <option value="12:00 PM" {% if prefill.DropOff == '12:00 PM' or request.form.get('DropOff') == '12:00 PM' %}selected{% endif %}>12:00 PM</option>
+      <option value="12:30 PM" {% if prefill.DropOff == '12:30 PM' or request.form.get('DropOff') == '12:30 PM' %}selected{% endif %}>12:30 PM</option>
+      <option value="1:00 PM" {% if prefill.DropOff == '1:00 PM' or request.form.get('DropOff') == '1:00 PM' %}selected{% endif %}>1:00 PM</option>
+      <option value="1:30 PM" {% if prefill.DropOff == '1:30 PM' or request.form.get('DropOff') == '1:30 PM' %}selected{% endif %}>1:30 PM</option>
+      <option value="2:00 PM" {% if prefill.DropOff == '2:00 PM' or request.form.get('DropOff') == '2:00 PM' %}selected{% endif %}>2:00 PM</option>
+      <option value="2:30 PM" {% if prefill.DropOff == '2:30 PM' or request.form.get('DropOff') == '2:30 PM' %}selected{% endif %}>2:30 PM</option>
+      <option value="3:00 PM" {% if prefill.DropOff == '3:00 PM' or request.form.get('DropOff') == '3:00 PM' %}selected{% endif %}>3:00 PM</option>
+      <option value="3:30 PM" {% if prefill.DropOff == '3:30 PM' or request.form.get('DropOff') == '3:30 PM' %}selected{% endif %}>3:30 PM</option>
+      <option value="4:00 PM" {% if prefill.DropOff == '4:00 PM' or request.form.get('DropOff') == '4:00 PM' %}selected{% endif %}>4:00 PM</option>
+      <option value="4:30 PM" {% if prefill.DropOff == '4:30 PM' or request.form.get('DropOff') == '4:30 PM' %}selected{% endif %}>4:30 PM</option>
+      <option value="5:00 PM" {% if prefill.DropOff == '5:00 PM' or request.form.get('DropOff') == '5:00 PM' %}selected{% endif %}>5:00 PM</option>
+      <option value="5:30 PM" {% if prefill.DropOff == '5:30 PM' or request.form.get('DropOff') == '5:30 PM' %}selected{% endif %}>5:30 PM</option>
+      <option value="6:00 PM" {% if prefill.DropOff == '6:00 PM' or request.form.get('DropOff') == '6:00 PM' %}selected{% endif %}>6:00 PM</option>
+      <option value="6:30 PM" {% if prefill.DropOff == '6:30 PM' or request.form.get('DropOff') == '6:30 PM' %}selected{% endif %}>6:30 PM</option>
+      <option value="7:00 PM" {% if prefill.DropOff == '7:00 PM' or request.form.get('DropOff') == '7:00 PM' %}selected{% endif %}>7:00 PM</option>
+      <option value="7:30 PM" {% if prefill.DropOff == '7:30 PM' or request.form.get('DropOff') == '7:30 PM' %}selected{% endif %}>7:30 PM</option>
+      <option value="No Need" {% if prefill.DropOff == 'No Need' or request.form.get('DropOff') == 'No Need' %}selected{% endif %}>No need</option>     
+    </select>
+    {% if field_errors['DropOff'] %}
+      <div class="form-error scroll-target">{{ field_errors['DropOff'] }}</div>
+    {% endif %}
+
+    <label for="Pick Up">Pick Up</label>
+    <select id="PickUp" name="PickUp">
+      <option value="" disabled {% if not request.form.get('PickUp') and not prefill.PickUp %}selected{% endif %}>--Please Select a Time--</option>
+      <option value="6:00 AM" {% if prefill.PickUp == '6:00 AM' or request.form.get('PickUp') == '6:00 AM' %}selected{% endif %}>6:00 AM</option>
+      <option value="6:30 AM" {% if prefill.PickUp == '6:30 AM' or request.form.get('PickUp') == '6:30 AM' %}selected{% endif %}>6:30 AM</option>
+      <option value="7:00 AM" {% if prefill.PickUp == '7:00 AM' or request.form.get('PickUp') == '7:00 AM' %}selected{% endif %}>7:00 AM</option>
+      <option value="7:30 AM" {% if prefill.PickUp == '7:30 AM' or request.form.get('PickUp') == '7:30 AM' %}selected{% endif %}>7:30 AM</option>
+      <option value="8:00 AM" {% if prefill.PickUp == '8:00 AM' or request.form.get('PickUp') == '8:00 AM' %}selected{% endif %}>8:00 AM</option>
+      <option value="8:30 AM" {% if prefill.PickUp == '8:30 AM' or request.form.get('PickUp') == '8:30 AM' %}selected{% endif %}>8:30 AM</option>
+      <option value="9:00 AM" {% if prefill.PickUp == '9:00 AM' or request.form.get('PickUp') == '9:00 AM' %}selected{% endif %}>9:00 AM</option>
+      <option value="9:30 AM" {% if prefill.PickUp == '9:30 AM' or request.form.get('PickUp') == '9:30 AM' %}selected{% endif %}>9:30 AM</option>
+      <option value="10:00 AM" {% if prefill.PickUp == '10:00 AM' or request.form.get('PickUp') == '10:00 AM' %}selected{% endif %}>10:00 AM</option>
+      <option value="10:30 AM" {% if prefill.PickUp == '10:30 AM' or request.form.get('PickUp') == '10:30 AM' %}selected{% endif %}>10:30 AM</option>
+      <option value="11:00 AM" {% if prefill.PickUp == '11:00 AM' or request.form.get('PickUp') == '11:00 AM' %}selected{% endif %}>11:00 AM</option>
+      <option value="11:30 AM" {% if prefill.PickUp == '11:30 AM' or request.form.get('PickUp') == '11:30 AM' %}selected{% endif %}>11:30 AM</option>
+      <option value="12:00 PM" {% if prefill.PickUp == '12:00 PM' or request.form.get('PickUp') == '12:00 PM' %}selected{% endif %}>12:00 PM</option>
+      <option value="12:30 PM" {% if prefill.PickUp == '12:30 PM' or request.form.get('PickUp') == '12:30 PM' %}selected{% endif %}>12:30 PM</option>
+      <option value="1:00 PM" {% if prefill.PickUp == '1:00 PM' or request.form.get('PickUp') == '1:00 PM' %}selected{% endif %}>1:00 PM</option>
+      <option value="1:30 PM" {% if prefill.PickUp == '1:30 PM' or request.form.get('PickUp') == '1:30 PM' %}selected{% endif %}>1:30 PM</option>
+      <option value="2:00 PM" {% if prefill.PickUp == '2:00 PM' or request.form.get('PickUp') == '2:00 PM' %}selected{% endif %}>2:00 PM</option>
+      <option value="2:30 PM" {% if prefill.PickUp == '2:30 PM' or request.form.get('PickUp') == '2:30 PM' %}selected{% endif %}>2:30 PM</option>
+      <option value="3:00 PM" {% if prefill.PickUp == '3:00 PM' or request.form.get('PickUp') == '3:00 PM' %}selected{% endif %}>3:00 PM</option>
+      <option value="3:30 PM" {% if prefill.PickUp == '3:30 PM' or request.form.get('PickUp') == '3:30 PM' %}selected{% endif %}>3:30 PM</option>
+      <option value="4:00 PM" {% if prefill.PickUp == '4:00 PM' or request.form.get('PickUp') == '4:00 PM' %}selected{% endif %}>4:00 PM</option>
+      <option value="4:30 PM" {% if prefill.PickUp == '4:30 PM' or request.form.get('PickUp') == '4:30 PM' %}selected{% endif %}>4:30 PM</option>
+      <option value="5:00 PM" {% if prefill.PickUp == '5:00 PM' or request.form.get('PickUp') == '5:00 PM' %}selected{% endif %}>5:00 PM</option>
+      <option value="5:30 PM" {% if prefill.PickUp == '5:30 PM' or request.form.get('PickUp') == '5:30 PM' %}selected{% endif %}>5:30 PM</option>
+      <option value="6:00 PM" {% if prefill.PickUp == '6:00 PM' or request.form.get('PickUp') == '6:00 PM' %}selected{% endif %}>6:00 PM</option>
+      <option value="6:30 PM" {% if prefill.PickUp == '6:30 PM' or request.form.get('PickUp') == '6:30 PM' %}selected{% endif %}>6:30 PM</option>
+      <option value="7:00 PM" {% if prefill.PickUp == '7:00 PM' or request.form.get('PickUp') == '7:00 PM' %}selected{% endif %}>7:00 PM</option>
+      <option value="7:30 PM" {% if prefill.PickUp == '7:30 PM' or request.form.get('PickUp') == '7:30 PM' %}selected{% endif %}>7:30 PM</option>
+      <option value="No Need" {% if prefill.PickUp == 'No Need' or request.form.get('PickUp') == 'No Need' %}selected{% endif %}>No need</option>     
+    </select>
+    {% if field_errors['PickUp'] %}
+      <div class="form-error scroll-target">{{ field_errors['PickUp'] }}</div>
+    {% endif %}
+
+    <textarea id="AddInfo" name="AddInfo" placeholder="Write something.." style="height:150px">{{ request.form.get('AddInfo', '') }}</textarea>
+
+    <input type="submit" value="Submit" class="submit-btn">
+
+  </form>
+</div>
+
+</div>
+
+<!-- The sidebar -->
+<div class="popoutbox">
+
+  <h2>Previous Entries</h2>
+  
+  {% if previous_entries %}
+    {% for entry in previous_entries %}
+      <div class="prev-entry-box">
+        <p><strong>Last Entry:</strong></p>
+        <div class="prev-entry-grid">
+          <p><strong>Name:</strong></p><p>{{ entry.FullName }}</p>
+          <p><strong>Phone:</strong></p><p>{{ entry.PNumber }}</p>
+          <p><strong>Location:</strong></p>
+          <p>
+            {% if entry.Location == 1 %}
+              {{ entry.Other }}
+            {% else %}
+              {{ loc_map[entry.Location|string] }}
+            {% endif %}
+          </p>
+          <p><strong>Drop Off:</strong></p><p>{{ entry.DropOff }}</p>
+          <p><strong>Pick Up:</strong></p><p>{{ entry.PickUp }}</p>
+        </div>
+        <form method="GET" action="/Form">
+          <input type="hidden" name="use_previous" value="{{ loop.index }}">
+          <button type="submit" class="use-prev-btn">Use Previous Entry</button>
+        </form>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>No previous entries found.</p>
+  {% endif %}
+
+</div>
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    const firstError = document.querySelector('.scroll-target');
+    if (firstError) {
+      firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      // Optionally highlight it
+      firstError.style.border = '1px solid red';
+      firstError.style.padding = '5px';
+      firstError.style.backgroundColor = '#ffe6e6';
+    }
+  });
+</script>
+
+<script>
+  function toggleOtherInput() {
+    const locationSelect = document.getElementById('Location');
+    const otherInput = document.getElementById('Other');
+    const selectedValue = locationSelect.value;
+    otherInput.style.display = (selectedValue === '1') ? 'block' : 'none';
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    toggleOtherInput();
+    document.getElementById('Location').addEventListener('change', toggleOtherInput);
+  });
+</script>
+
+{% endblock %}

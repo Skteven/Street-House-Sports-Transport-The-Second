@@ -1,0 +1,39 @@
+{% extends 'base.html'%}
+{% block body %}  
+
+<!--Top Form Bar-->
+<div id="Extended_Header">
+  <h1>Contact Us</h1>
+  <p><a href="/">Home</a> / Contact Us</p>
+</div>
+
+<h1 style="font-size:50px; text-align: center;">Get in Touch!</h1>
+
+<div class="row1">
+  <div class="column1">
+    <h1 style="font-size: 30px;">Have any questions or ideas?</h1>
+    <label for="CUname">Name</label>
+    <input type="text" id="CUname" name="CUname" placeholder="Name*">
+    <label for="CUemail">Email</label>
+    <input type="text" id="CUemail" name="CUemail" placeholder="Email*">
+    <label for="CUinfo">Message</label>
+    <textarea id="CUinfo" name="CUinfo" placeholder="Write something.." style="height:50px"></textarea>
+  </div>
+
+  <div class="column1" >
+    <h1 style="font-size: 30px;">Talk to a member of our team!</h1>
+    <p><b>Phone</b>: +61 9327 9000</p>
+    <p><b>Email</b>: seniorschool@cranbrook.nsw.edu.au</p>
+    <p><b>Address</b>: Sydney, Australia, 5 Victoria Rd, Bellevue Hill NSW 2023</p>
+  </div>
+
+</div>
+
+
+<div class="social-icons">
+  <a href="https://www.youtube.com/@streethouse6346"><img src="static/images/YT logo.jpeg"></a>
+  <a href="https://www.instagram.com/street_house_boarding"><img src="static/images/insta logo.jpeg"></a>
+</div>
+
+
+{% endblock %}
